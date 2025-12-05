@@ -563,6 +563,23 @@
             background-color: #D4AF37;
         }
 
+        /* Thank you message */
+        .thank-you-message {
+            display: none;
+            background-color: #165B33;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .thank-you-message.show {
+            display: block;
+        }
+
         /* Candy cane stripe bottom */
         .candy-stripe-bottom {
             height: 10px;
@@ -747,6 +764,11 @@
 
         <div class="divider"></div>
 
+        <!-- Thank you message (shown after submission) -->
+        <div id="thankYouMessage" class="thank-you-message">
+            ✓ Thank you for your entry! We've received your registration for the Gingerbread House Competition.
+        </div>
+
         <h3 class="section-title">Entry Information</h3>
 
         <form action="https://formsubmit.co/steven@alopexid.com" method="POST" class="form-section">
@@ -754,6 +776,7 @@
             <input type="hidden" name="_subject" value="GHC Entry">
             <input type="hidden" name="_captcha" value="false">
             <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_next" value="https://alopexid.github.io/Gingerbread/?submitted=true">
 
             <div class="form-group">
                 <label for="name">Name</label>
@@ -843,6 +866,18 @@
     </div>
 
     <div class="candy-stripe-bottom"></div>
+
+    <script>
+        // Check if form was just submitted
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('submitted') === 'true') {
+            document.getElementById('thankYouMessage').classList.add('show');
+            // Scroll to the thank you message
+            document.getElementById('thankYouMessage').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // Remove the parameter from URL without reloading
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+    </script>
 </body>
 
 </html>
